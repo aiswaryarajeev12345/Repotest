@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Emergency Requests | Smart Disaster Response
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <div>
+
+            <span class="badge bg-success px-3 py-2 mb-2">
+
+                <i class="bi bi-clipboard-check-fill"></i>
+
+                My Emergency Requests
+
+            </span>
+
+            <h1 class="fw-bold mb-2">
+
+                My Requests
+
+            </h1>
+
+            <p class="text-muted mb-0">
+
+                Track your emergency requests and response status.
+
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <a href="{% url 'request_help' %}"
+               class="btn btn-danger">
+
+                <i class="bi bi-plus-circle-fill"></i>
+
+                New Request
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    
+
+    {% if requests %}
+
+        <div class="row g-4">
+
+            {% for item in requests %}
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+
+                        <!-- TOP SECTION -->
+
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+
+                            <div>
+
+                                <span class="badge bg-danger mb-2">
+
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                    {{ item.emergency_type }}
+
+                                </span>
+
+                                <h5 class="fw-bold mb-0">
+
+                                    Emergency Request #{{ item.id }}
+
+                                </h5>
+
+                            </div>
+
+
+                            <!-- STATUS -->
+
+                            <div>
+
+                                {% if item.status == "Received" %}
+
+                                    <span class="badge bg-warning text-dark px-3 py-2">
+
+                                        <i class="bi bi-clock-fill"></i>
+
+                                        Received
+
+                                    </span>
+
+                                {% elif item.status == "In Process" %}
+
+                                    <span class="badge bg-primary px-3 py-2">
+
+                                        <i class="bi bi-arrow-repeat"></i>
+
+                                        In Process
+
+                                    </span>
+
+                                {% elif item.status == "Completed" %}
+
+                                    <span class="badge bg-success px-3 py-2">
+
+                                        <i class="bi bi-check-circle-fill"></i>
+
+                                        Completed
+
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <hr>
+
+
+                        <!-- LOCATION -->
+
+                        <div class="mb-3">
+
+                            <small class="text-muted d-block">
+
+                                <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                                Emergency Location
+
+                            </small>
+
+                            <strong>
+
+                                {{ item.location }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- PHONE -->
+
+                        <div class="mb-3">
+
+                            <small class="text-muted d-block">
+
+                                <i class="bi bi-telephone-fill text-primary"></i>
+
+                                Contact Number
+
+                            </small>
+
+                            <strong>
+
+                                {{ item.phone }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-3">
+
+                            <small class="text-muted d-block">
+
+                                <i class="bi bi-chat-left-text-fill text-primary"></i>
+
+                                Emergency Description
+
+                            </small>
+
+                            <p class="mb-0">
+
+                                {{ item.description }}
+
+                            </p>
+
+                        </div>
+
+
+                        <!-- REQUEST DATE -->
+
+                        <div class="mb-3">
+
+                            <small class="text-muted d-block">
+
+                                <i class="bi bi-calendar-event-fill text-primary"></i>
+
+                                Request Submitted
+
+                            </small>
+
+                            <strong>
+
+                                {{ item.request_date|date:"d M Y, h:i A" }}
+
+                            </strong>
+
+                        </div>
+
+
+                   
+
+                        {% if item.response_result %}
+
+                        <div class="alert alert-success mb-3">
+
+                            <h6 class="fw-bold">
+
+                                <i class="bi bi-chat-square-text-fill"></i>
+
+                                Coordinator Response
+
+                            </h6>
+
+                            <p class="mb-0">
+
+                                {{ item.response_result }}
+
+                            </p>
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="alert alert-light border mb-3">
+
+                            <i class="bi bi-hourglass-split"></i>
+
+                            Waiting for coordinator response.
+
+                        </div>
+
+                        {% endif %}
+
+
+                      
+
+                        {% if item.handled_by %}
+
+                        <div class="mb-3">
+
+                            <small class="text-muted d-block">
+
+                                <i class="bi bi-person-check-fill text-success"></i>
+
+                                Handled By
+
+                            </small>
+
+                            <strong>
+
+                                {{ item.handled_by.username }}
+
+                            </strong>
+
+                        </div>
+
+                        {% endif %}
+
+
+                      
+
+                        {% if item.completed_date %}
+
+                        <div class="alert alert-success mb-0">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            <strong>
+
+                                Request Completed
+
+                            </strong>
+
+                            <br>
+
+                            <small>
+
+                                Completed on:
+
+                                {{ item.completed_date|date:"d M Y, h:i A" }}
+
+                            </small>
+
+                        </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+
+  
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <div class="display-1 text-muted mb-3">
+
+                    <i class="bi bi-clipboard-x"></i>
+
+                </div>
+
+                <h3 class="fw-bold">
+
+                    No Emergency Requests
+
+                </h3>
+
+                <p class="text-muted">
+
+                    You have not submitted any emergency
+                    help requests yet.
+
+                </p>
+
+                <a href="{% url 'request_help' %}"
+                   class="btn btn-danger btn-lg">
+
+                    <i class="bi bi-life-preserver"></i>
+
+                    Request Emergency Help
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    {% endif %}
+
+
+
+    <div class="text-center mt-5">
+
+        <a href="{% url 'dashboard' %}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+

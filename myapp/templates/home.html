@@ -1,0 +1,595 @@
+{% extends "base.html" %}
+
+{% block title %}
+Smart Disaster Response System
+{% endblock %}
+
+{% block content %}
+
+
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center min-vh-75">
+
+            <!-- LEFT CONTENT -->
+
+            <div class="col-lg-7">
+
+                <span class="badge bg-danger px-3 py-2 mb-3">
+
+                    <i class="bi bi-shield-fill-check"></i>
+
+                    SMART EMERGENCY RESPONSE SYSTEM
+
+                </span>
+
+
+                <h1 class="display-3 fw-bold text-white mb-4">
+
+                    Stay Safe.
+                    <span class="text-warning">
+                        Stay Informed.
+                    </span>
+
+                </h1>
+
+
+                <p class="lead text-white mb-4">
+
+                    A smart disaster response platform that connects
+                    citizens, emergency coordinators, and authorities
+                    during critical situations.
+
+                </p>
+
+
+                <div class="d-flex flex-wrap gap-3">
+
+                    {% if user.is_authenticated %}
+
+                        {% if user.is_superuser %}
+
+                            <a href="{% url 'admin_dashboard' %}"
+                               class="btn btn-danger btn-lg px-4">
+
+                                <i class="bi bi-speedometer2"></i>
+
+                                Go to Admin Dashboard
+
+                            </a>
+
+                        {% elif user.userprofile.role == "COORDINATOR" %}
+
+                            <a href="{% url 'coordinator_dashboard' %}"
+                               class="btn btn-warning btn-lg px-4">
+
+                                <i class="bi bi-person-workspace"></i>
+
+                                Coordinator Dashboard
+
+                            </a>
+
+                        {% else %}
+
+                            <a href="{% url 'dashboard' %}"
+                               class="btn btn-danger btn-lg px-4">
+
+                                <i class="bi bi-speedometer2"></i>
+
+                                Open Dashboard
+
+                            </a>
+
+                            <a href="{% url 'request_help' %}"
+                               class="btn btn-outline-light btn-lg px-4">
+
+                                <i class="bi bi-life-preserver"></i>
+
+                                Request Help
+
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <a href="{% url 'register' %}"
+                           class="btn btn-danger btn-lg px-4">
+
+                            <i class="bi bi-person-plus-fill"></i>
+
+                            Get Started
+
+                        </a>
+
+
+                        <a href="{% url 'login' %}"
+                           class="btn btn-outline-light btn-lg px-4">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            Login
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT EMERGENCY CARD -->
+
+            <div class="col-lg-5 mt-5 mt-lg-0">
+
+                <div class="emergency-card">
+
+                    <div class="emergency-icon">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    </div>
+
+
+                    <h3 class="text-white fw-bold">
+
+                        Emergency Ready
+
+                    </h3>
+
+
+                    <p class="text-white-50">
+
+                        Access critical alerts, emergency resources,
+                        and request assistance when you need it most.
+
+                    </p>
+
+
+                    <div class="emergency-status">
+
+                        <span class="status-dot"></span>
+
+                        System Active
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="text-danger fw-bold">
+
+                <i class="bi bi-broadcast"></i>
+
+                LIVE INFORMATION
+
+            </span>
+
+            <h2 class="fw-bold mt-2">
+
+                Latest Disaster Alerts
+
+            </h2>
+
+            <p class="text-muted">
+
+                Stay updated with the latest emergency information.
+
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            {% for alert in alerts %}
+
+                <div class="col-md-4">
+
+                    <div class="card alert-card h-100 border-0 shadow-sm">
+
+
+                        <div class="card-body p-4">
+
+
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span class="badge bg-danger">
+
+                                    🚨 {{ alert.disaster_type }}
+
+                                </span>
+
+                                <small class="text-muted">
+
+                                    {{ alert.alert_date|date:"d M Y" }}
+
+                                </small>
+
+                            </div>
+
+
+                            <h5 class="fw-bold">
+
+                                {{ alert.area }}
+
+                            </h5>
+
+
+                            <p class="text-muted">
+
+                                {{ alert.alert_message }}
+
+                            </p>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+
+                <div class="col-12">
+
+                    <div class="text-center py-5">
+
+                        <i class="bi bi-shield-check display-3 text-success"></i>
+
+                        <h4 class="mt-3">
+
+                            No Active Disaster Alerts
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            There are currently no emergency alerts.
+                            Stay safe!
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="text-danger fw-bold">
+
+                OUR SERVICES
+
+            </span>
+
+            <h2 class="fw-bold mt-2">
+
+                Everything You Need During an Emergency
+
+            </h2>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- ALERTS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center p-4 h-100">
+
+                    <div class="feature-icon bg-danger">
+
+                        <i class="bi bi-broadcast"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+
+                        Disaster Alerts
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Receive important disaster information
+                        and emergency warnings.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- SMS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center p-4 h-100">
+
+                    <div class="feature-icon bg-primary">
+
+                        <i class="bi bi-chat-square-text-fill"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+
+                        SMS Notifications
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Emergency alerts can be delivered
+                        directly through SMS notifications.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESOURCES -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center p-4 h-100">
+
+                    <div class="feature-icon bg-success">
+
+                        <i class="bi bi-hospital-fill"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+
+                        Emergency Resources
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Find hospitals, ambulances, police,
+                        fire stations, and relief camps.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- HELP -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card text-center p-4 h-100">
+
+                    <div class="feature-icon bg-warning">
+
+                        <i class="bi bi-life-preserver"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+
+                        Request Help
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Submit an emergency request and
+                        track the response status.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                How Smart Disaster Response Works
+
+            </h2>
+
+        </div>
+
+
+        <div class="row text-center g-4">
+
+
+            <div class="col-md-3">
+
+                <div class="step-number">
+
+                    01
+
+                </div>
+
+                <h5 class="fw-bold">
+
+                    Alert
+
+                </h5>
+
+                <p class="text-muted">
+
+                    Authorities publish disaster alerts.
+
+                </p>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="step-number">
+
+                    02
+
+                </div>
+
+                <h5 class="fw-bold">
+
+                    Notify
+
+                </h5>
+
+                <p class="text-muted">
+
+                    Registered users receive emergency information.
+
+                </p>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="step-number">
+
+                    03
+
+                </div>
+
+                <h5 class="fw-bold">
+
+                    Request
+
+                </h5>
+
+                <p class="text-muted">
+
+                    Citizens can submit emergency help requests.
+
+                </p>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="step-number">
+
+                    04
+
+                </div>
+
+                <h5 class="fw-bold">
+
+                    Respond
+
+                </h5>
+
+                <p class="text-muted">
+
+                    Coordinators manage and resolve requests.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<section class="cta-section py-5">
+
+    <div class="container text-center">
+
+        <h2 class="fw-bold text-white">
+
+            Be Prepared. Stay Connected.
+
+        </h2>
+
+        <p class="text-white-50">
+
+            Join our smart disaster response platform today.
+
+        </p>
+
+
+        {% if not user.is_authenticated %}
+
+            <a href="{% url 'register' %}"
+               class="btn btn-light btn-lg px-5">
+
+                Create Your Account
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+{% endblock %}

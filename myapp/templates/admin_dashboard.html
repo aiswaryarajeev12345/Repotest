@@ -1,0 +1,537 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard | Smart Disaster Response
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-5">
+
+
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-5">
+
+            <div>
+
+                <span class="badge bg-danger px-3 py-2 mb-2">
+
+                    <i class="bi bi-shield-lock-fill"></i>
+
+                    System Administrator
+
+                </span>
+
+                <h1 class="fw-bold mb-2">
+
+                    Admin Dashboard
+
+                </h1>
+
+                <p class="text-muted mb-0">
+
+                    Manage disaster alerts, emergency resources,
+                    users and system activity.
+
+                </p>
+
+            </div>
+
+            <div class="text-end">
+
+                <span class="text-muted d-block">
+
+                    Logged in as
+
+                </span>
+
+                <strong>
+
+                    <i class="bi bi-person-circle"></i>
+
+                    {{ user.username }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+     
+
+        <div class="row g-4 mb-5">
+
+            <!-- USERS -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Registered Users
+
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+
+                                    {{ total_users }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-primary">
+
+                                <i class="bi bi-people-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ALERTS -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Disaster Alerts
+
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+
+                                    {{ total_alerts }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-danger">
+
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESOURCES -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Emergency Resources
+
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+
+                                    {{ total_resources }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-success">
+
+                                <i class="bi bi-hospital-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PENDING -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Pending Requests
+
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+
+                                    {{ pending_requests }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-warning">
+
+                                <i class="bi bi-clock-history"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+         
+
+            <div class="col-lg-5">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-danger text-white p-4">
+
+                        <h4 class="mb-1">
+
+                            <i class="bi bi-broadcast-pin"></i>
+
+                            Create Disaster Alert
+
+                        </h4>
+
+                        <small>
+
+                            Send an emergency alert to registered users.
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="card-body p-4">
+
+                        <div class="alert alert-warning">
+
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            Creating an alert will send an SMS notification
+                            to registered users with a phone number.
+
+                        </div>
+
+
+                        <form method="POST">
+
+                            {% csrf_token %}
+
+
+                            <!-- DISASTER TYPE -->
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+
+                                    Disaster Type
+
+                                </label>
+
+                                {{ form.disaster_type }}
+
+                                {% if form.disaster_type.errors %}
+
+                                    <div class="text-danger">
+
+                                        {{ form.disaster_type.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- AREA -->
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+
+                                    Affected Area
+
+                                </label>
+
+                                {{ form.area }}
+
+                                {% if form.area.errors %}
+
+                                    <div class="text-danger">
+
+                                        {{ form.area.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- MESSAGE -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold">
+
+                                    Emergency Message
+
+                                </label>
+
+                                {{ form.alert_message }}
+
+                                {% if form.alert_message.errors %}
+
+                                    <div class="text-danger">
+
+                                        {{ form.alert_message.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-lg w-100">
+
+                                <i class="bi bi-send-fill"></i>
+
+                                Create Alert & Send SMS
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-7">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-dark text-white p-4">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h4 class="mb-1">
+
+                                    <i class="bi bi-megaphone-fill"></i>
+
+                                    Recent Disaster Alerts
+
+                                </h4>
+
+                                <small>
+
+                                    Alerts created by administrators.
+
+                                </small>
+
+                            </div>
+
+                            <span class="badge bg-danger">
+
+                                {{ total_alerts }} Total
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body p-0">
+
+                        {% if alerts %}
+
+                            <div class="list-group list-group-flush">
+
+                                {% for alert in alerts %}
+
+                                <div class="list-group-item p-4">
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <div>
+
+                                            <span class="badge bg-danger mb-2">
+
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                                {{ alert.disaster_type }}
+
+                                            </span>
+
+                                            <h5 class="fw-bold mb-1">
+
+                                                {{ alert.area }}
+
+                                            </h5>
+
+                                        </div>
+
+                                        <small class="text-muted">
+
+                                            {{ alert.alert_date|date:"d M Y, h:i A" }}
+
+                                        </small>
+
+                                    </div>
+
+
+                                    <p class="text-muted mb-2">
+
+                                        {{ alert.alert_message }}
+
+                                    </p>
+
+
+                                    {% if alert.created_by %}
+
+                                    <small class="text-muted">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                        Created by:
+
+                                        {{ alert.created_by.username }}
+
+                                    </small>
+
+                                    {% endif %}
+
+                                </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="text-center py-5">
+
+                                <i class="bi bi-megaphone display-4 text-muted"></i>
+
+                                <h5 class="mt-3">
+
+                                    No Disaster Alerts
+
+                                </h5>
+
+                                <p class="text-muted">
+
+                                    No emergency alerts have been created yet.
+
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+     
+
+        <div class="alert alert-info mt-5">
+
+            <div class="d-flex">
+
+                <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+
+                <div>
+
+                    <strong>Admin Control Center</strong>
+
+                    <p class="mb-0 mt-1">
+
+                        The administrator is responsible for publishing
+                        disaster alerts and managing emergency resources.
+                        Users receive alerts through the system, while
+                        coordinators handle emergency help requests.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

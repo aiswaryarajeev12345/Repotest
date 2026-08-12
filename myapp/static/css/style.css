@@ -1,0 +1,162 @@
+
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100% !important;
+    background: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+
+
+
+main {
+    min-height: 100vh !important;
+    background: #0f172a !important;
+}
+
+
+
+
+.navbar {
+    background: #020617 !important;
+}
+
+
+
+.container,
+.container-fluid {
+    background: transparent !important;
+}
+
+
+
+
+.card,
+.card-body,
+.card-header,
+.card-footer {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: #334155 !important;
+}
+
+
+
+
+.bg-white,
+.bg-light {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+}
+
+
+
+
+.table {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    --bs-table-bg: #1e293b !important;
+    --bs-table-color: #f8fafc !important;
+}
+
+.table thead,
+.table-light,
+.table-light th,
+.table-light td {
+    background: #334155 !important;
+    color: white !important;
+    --bs-table-bg: #334155 !important;
+    --bs-table-color: white !important;
+}
+
+.table tbody,
+.table tbody tr,
+.table tbody td {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+}
+
+.table-hover tbody tr:hover {
+    background: #334155 !important;
+    color: white !important;
+}
+
+
+
+
+.form-control,
+.form-select,
+textarea,
+input,
+select {
+    background: #1e293b !important;
+    color: white !important;
+    border: 1px solid #64748b !important;
+}
+
+.form-control::placeholder {
+    color: #cbd5e1 !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: #1e293b !important;
+    color: white !important;
+    border-color: #3b82f6 !important;
+}
+
+
+
+
+.dropdown-menu {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+.dropdown-item {
+    color: white !important;
+}
+
+.dropdown-item:hover {
+    background: #334155 !important;
+    color: white !important;
+}
+
+
+
+
+.text-dark {
+    color: white !important;
+}
+
+.text-muted {
+    color: #cbd5e1 !important;
+}
+
+
+
+.alert-light {
+    background: #1e293b !important;
+    color: white !important;
+    border-color: #334155 !important;
+}
+
+
+
+footer {
+    background: #020617 !important;
+    color: white !important;
+}
+
+
+
+a {
+    color: #60a5fa;
+}
+
+a:hover {
+    color: #93c5fd;
+}

@@ -1,0 +1,422 @@
+{% extends "base.html" %}
+
+{% block title %}
+Request Emergency Help | Smart Disaster Response
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- PAGE HEADER -->
+
+    <div class="text-center mb-5">
+
+        <span class="badge bg-danger px-3 py-2 mb-3">
+
+            <i class="bi bi-life-preserver"></i>
+
+            Emergency Assistance
+
+        </span>
+
+        <h1 class="fw-bold">
+
+            Request Emergency Help
+
+        </h1>
+
+        <p class="text-muted">
+
+            Submit your emergency details. Our response coordinator
+            will review your request and take appropriate action.
+
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+
+            <!-- EMERGENCY WARNING -->
+
+            <div class="alert alert-danger shadow-sm">
+
+                <div class="d-flex">
+
+                    <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
+
+                    <div>
+
+                        <h5 class="fw-bold">
+
+                            Emergency Assistance Request
+
+                        </h5>
+
+                        <p class="mb-0">
+
+                            Please provide accurate information so the
+                            emergency coordinator can respond quickly.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REQUEST FORM -->
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-header bg-danger text-white p-4">
+
+                    <h4 class="mb-1">
+
+                        <i class="bi bi-send-fill"></i>
+
+                        Emergency Help Form
+
+                    </h4>
+
+                    <small>
+
+                        All fields are required.
+
+                    </small>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- PHONE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+
+                                <i class="bi bi-telephone-fill text-danger"></i>
+
+                                Contact Phone Number
+
+                            </label>
+
+                            <input
+                                type="tel"
+                                name="phone"
+                                class="form-control form-control-lg"
+                                placeholder="Enter your phone number"
+                                required
+                            >
+
+                            <div class="form-text">
+
+                                Provide a phone number where the
+                                emergency coordinator can contact you.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LOCATION -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+
+                                <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                                Emergency Location
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="location"
+                                class="form-control form-control-lg"
+                                placeholder="Enter your current location"
+                                required
+                            >
+
+                            <div class="form-text">
+
+                                Example: Malappuram, Kerala
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- EMERGENCY TYPE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+
+                                <i class="bi bi-exclamation-circle-fill text-danger"></i>
+
+                                Emergency Type
+
+                            </label>
+
+                            <select
+                                name="emergency_type"
+                                class="form-select form-select-lg"
+                                required
+                            >
+
+                                <option value="">
+
+                                    Select emergency type
+
+                                </option>
+
+                                <option value="Flood">
+
+                                    🌊 Flood
+
+                                </option>
+
+                                <option value="Fire">
+
+                                    🔥 Fire
+
+                                </option>
+
+                                <option value="Earthquake">
+
+                                    🌍 Earthquake
+
+                                </option>
+
+                                <option value="Cyclone">
+
+                                    🌀 Cyclone
+
+                                </option>
+
+                                <option value="Landslide">
+
+                                    ⛰️ Landslide
+
+                                </option>
+
+                                <option value="Tsunami">
+
+                                    🌊 Tsunami
+
+                                </option>
+
+                                <option value="Medical">
+
+                                    🏥 Medical Emergency
+
+                                </option>
+
+                                <option value="Other">
+
+                                    ⚠️ Other Emergency
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+
+                                <i class="bi bi-chat-left-text-fill text-danger"></i>
+
+                                Describe the Emergency
+
+                            </label>
+
+                            <textarea
+                                name="description"
+                                class="form-control"
+                                rows="6"
+                                placeholder="Describe what happened and what kind of help you need..."
+                                required
+                            ></textarea>
+
+                            <div class="form-text">
+
+                                Please include important information
+                                that can help the coordinator understand
+                                your situation.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CONSENT -->
+
+                        <div class="alert alert-warning">
+
+                            <i class="bi bi-info-circle-fill"></i>
+
+                            By submitting this request, your emergency
+                            information will be shared with authorized
+                            emergency coordinators for response purposes.
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="d-flex gap-3">
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger btn-lg flex-grow-1"
+                            >
+
+                                <i class="bi bi-send-fill"></i>
+
+                                Submit Emergency Request
+
+                            </button>
+
+
+                            <a
+                                href="{% url 'dashboard' %}"
+                                class="btn btn-outline-secondary btn-lg"
+                            >
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS INFORMATION -->
+
+            <div class="card border-0 shadow-sm mt-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        <i class="bi bi-info-circle-fill text-primary"></i>
+
+                        What Happens Next?
+
+                    </h5>
+
+
+                    <div class="row text-center">
+
+
+                        <div class="col-md-4 mb-3 mb-md-0">
+
+                            <div class="display-6 text-danger">
+
+                                <i class="bi bi-send-fill"></i>
+
+                            </div>
+
+                            <h6 class="fw-bold mt-2">
+
+                                1. Request Submitted
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Your emergency request is sent
+                                to the response team.
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3 mb-md-0">
+
+                            <div class="display-6 text-primary">
+
+                                <i class="bi bi-person-workspace"></i>
+
+                            </div>
+
+                            <h6 class="fw-bold mt-2">
+
+                                2. Coordinator Reviews
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                An emergency coordinator reviews
+                                your request.
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div class="display-6 text-success">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                            </div>
+
+                            <h6 class="fw-bold mt-2">
+
+                                3. Response Provided
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                You can track the response from
+                                your My Requests page.
+
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

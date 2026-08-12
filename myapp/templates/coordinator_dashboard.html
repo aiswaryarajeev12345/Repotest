@@ -1,0 +1,668 @@
+{% extends "base.html" %}
+
+{% block title %}
+Coordinator Dashboard | Smart Disaster Response
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-5">
+
+
+
+    <div class="container">
+
+        <div class="d-flex flex-wrap justify-content-between
+                    align-items-center mb-4">
+
+            <div>
+
+                <span class="badge bg-primary px-3 py-2 mb-2">
+
+                    <i class="bi bi-person-workspace"></i>
+
+                    EMERGENCY COORDINATOR
+
+                </span>
+
+                <h1 class="fw-bold mb-1">
+
+                    Coordinator Dashboard
+
+                </h1>
+
+                <p class="text-muted mb-0">
+
+                    Monitor and manage emergency help requests.
+
+                </p>
+
+            </div>
+
+            <div class="text-end">
+
+                <span class="text-muted">
+
+                    Welcome,
+
+                </span>
+
+                <strong>
+
+                    {{ user.username }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+      
+
+        <div class="row g-4 mb-5">
+
+
+            <!-- TOTAL -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Total Requests
+
+                                </p>
+
+                                <h2 class="fw-bold mb-0">
+
+                                    {{ total_requests }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-primary">
+
+                                <i class="bi bi-clipboard-data-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECEIVED -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Received
+
+                                </p>
+
+                                <h2 class="fw-bold text-danger mb-0">
+
+                                    {{ received_requests }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-danger">
+
+                                <i class="bi bi-exclamation-circle-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IN PROCESS -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    In Process
+
+                                </p>
+
+                                <h2 class="fw-bold text-warning mb-0">
+
+                                    {{ in_process_requests }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-warning">
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETED -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+
+                                    Completed
+
+                                </p>
+
+                                <h2 class="fw-bold text-success mb-0">
+
+                                    {{ completed_requests }}
+
+                                </h2>
+
+                            </div>
+
+                            <div class="display-5 text-success">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        
+
+        <div class="card border-0 shadow-lg">
+
+            <div class="card-header bg-dark text-white p-4">
+
+                <div class="d-flex
+                            justify-content-between
+                            align-items-center">
+
+                    <div>
+
+                        <h4 class="mb-1">
+
+                            <i class="bi bi-life-preserver"></i>
+
+                            Emergency Help Requests
+
+                        </h4>
+
+                        <small class="text-white-50">
+
+                            Review and manage requests submitted
+                            by registered users.
+
+                        </small>
+
+                    </div>
+
+                    <span class="badge bg-danger">
+
+                        {{ total_requests }} Requests
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body p-0">
+
+
+                {% if help_requests %}
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover
+                                  align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th class="px-4">
+                                    #
+                                </th>
+
+                                <th>
+                                    User
+                                </th>
+
+                                <th>
+                                    Emergency
+                                </th>
+
+                                <th>
+                                    Location
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% for request in help_requests %}
+
+
+                            <tr>
+
+
+                                <!-- ID -->
+
+                                <td class="px-4">
+
+                                    <strong>
+
+                                        #{{ request.id }}
+
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- USER -->
+
+                                <td>
+
+                                    <div class="d-flex
+                                                align-items-center">
+
+                                        <div class="rounded-circle
+                                                    bg-primary
+                                                    text-white
+                                                    d-flex
+                                                    align-items-center
+                                                    justify-content-center
+                                                    me-2"
+
+                                             style="width:40px;
+                                                    height:40px;">
+
+                                            <i class="bi bi-person-fill"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+
+                                                {{ request.user.username }}
+
+                                            </strong>
+
+                                            <br>
+
+                                            <small class="text-muted">
+
+                                                {{ request.user.email }}
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- EMERGENCY TYPE -->
+
+                                <td>
+
+                                    <span class="badge bg-danger">
+
+                                        {{ request.emergency_type }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- LOCATION -->
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt-fill
+                                              text-danger"></i>
+
+                                    {{ request.location }}
+
+                                </td>
+
+
+                                <!-- PHONE -->
+
+                                <td>
+
+                                    <a href="tel:{{ request.phone }}"
+                                       class="text-decoration-none">
+
+                                        <i class="bi bi-telephone-fill"></i>
+
+                                        {{ request.phone }}
+
+                                    </a>
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+
+                                    {% if request.status == "Received" %}
+
+                                        <span class="badge bg-danger">
+
+                                            <i class="bi bi-exclamation-circle"></i>
+
+                                            Received
+
+                                        </span>
+
+
+                                    {% elif request.status == "In Process" %}
+
+                                        <span class="badge bg-warning text-dark">
+
+                                            <i class="bi bi-arrow-repeat"></i>
+
+                                            In Process
+
+                                        </span>
+
+
+                                    {% elif request.status == "Completed" %}
+
+                                        <span class="badge bg-success">
+
+                                            <i class="bi bi-check-circle"></i>
+
+                                            Completed
+
+                                        </span>
+
+
+                                    {% endif %}
+
+
+                                </td>
+
+
+                                <!-- DATE -->
+
+                                <td>
+
+                                    <small>
+
+                                        {{ request.request_date|date:"d M Y" }}
+
+                                        <br>
+
+                                        {{ request.request_date|date:"h:i A" }}
+
+                                    </small>
+
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    <a href="{% url 'update_help_request' request.id %}"
+                                       class="btn btn-primary btn-sm">
+
+                                        <i class="bi bi-pencil-square"></i>
+
+                                        Manage
+
+                                    </a>
+
+                                </td>
+
+
+                            </tr>
+
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                {% else %}
+
+
+                <!-- NO REQUESTS -->
+
+                <div class="text-center py-5">
+
+                    <div class="display-1 text-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <h4 class="fw-bold mt-3">
+
+                        No Emergency Requests
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        There are currently no emergency help
+                        requests to manage.
+
+                    </p>
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+
+        
+
+        <div class="card border-0 shadow-sm mt-5">
+
+            <div class="card-body p-4">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-diagram-3-fill text-primary"></i>
+
+                    Emergency Response Workflow
+
+                </h5>
+
+
+                <div class="row text-center">
+
+
+                    <div class="col-md-4 mb-4 mb-md-0">
+
+                        <div class="display-5 text-danger">
+
+                            <i class="bi bi-inbox-fill"></i>
+
+                        </div>
+
+                        <h6 class="fw-bold mt-3">
+
+                            1. Request Received
+
+                        </h6>
+
+                        <p class="text-muted small">
+
+                            A citizen submits an emergency
+                            assistance request.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-4 mb-4 mb-md-0">
+
+                        <div class="display-5 text-warning">
+
+                            <i class="bi bi-gear-fill"></i>
+
+                        </div>
+
+                        <h6 class="fw-bold mt-3">
+
+                            2. Response In Process
+
+                        </h6>
+
+                        <p class="text-muted small">
+
+                            The coordinator reviews the request
+                            and takes action.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="display-5 text-success">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                        </div>
+
+                        <h6 class="fw-bold mt-3">
+
+                            3. Request Completed
+
+                        </h6>
+
+                        <p class="text-muted small">
+
+                            The coordinator records the response
+                            and completes the request.
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

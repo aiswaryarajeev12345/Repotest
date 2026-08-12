@@ -1,0 +1,446 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Manage Emergency Request | Smart Disaster Response
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+
+    <div class="mb-4">
+
+        <a href="{% url 'coordinator_dashboard' %}"
+           class="btn btn-outline-secondary mb-3">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Coordinator Dashboard
+
+        </a>
+
+        <h1 class="fw-bold">
+
+            Manage Emergency Request
+
+        </h1>
+
+        <p class="text-muted">
+
+            Review the emergency details and update the response status.
+
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+
+     
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-danger text-white p-4">
+
+                    <h4 class="mb-1">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                        Emergency Request #{{ help_request.id }}
+
+                    </h4>
+
+                    <small>
+
+                        Submitted by {{ help_request.user.username }}
+
+                    </small>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+
+                    <!-- USER -->
+
+                    <div class="mb-4">
+
+                        <label class="text-muted small">
+
+                            REQUESTED BY
+
+                        </label>
+
+                        <h5 class="fw-bold">
+
+                            <i class="bi bi-person-fill text-primary"></i>
+
+                            {{ help_request.user.username }}
+
+                        </h5>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="mb-4">
+
+                        <label class="text-muted small">
+
+                            CONTACT PHONE
+
+                        </label>
+
+                        <h5>
+
+                            <a href="tel:{{ help_request.phone }}"
+                               class="text-decoration-none">
+
+                                <i class="bi bi-telephone-fill text-success"></i>
+
+                                {{ help_request.phone }}
+
+                            </a>
+
+                        </h5>
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="mb-4">
+
+                        <label class="text-muted small">
+
+                            EMERGENCY LOCATION
+
+                        </label>
+
+                        <h5 class="fw-bold">
+
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                            {{ help_request.location }}
+
+                        </h5>
+
+                    </div>
+
+
+                    <!-- EMERGENCY TYPE -->
+
+                    <div class="mb-4">
+
+                        <label class="text-muted small">
+
+                            EMERGENCY TYPE
+
+                        </label>
+
+                        <div>
+
+                            <span class="badge bg-danger fs-6 px-3 py-2">
+
+                                {{ help_request.emergency_type }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="mb-4">
+
+                        <label class="text-muted small">
+
+                            EMERGENCY DESCRIPTION
+
+                        </label>
+
+                        <div class="bg-light rounded p-3">
+
+                            {{ help_request.description }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REQUEST DATE -->
+
+                    <div>
+
+                        <label class="text-muted small">
+
+                            REQUEST SUBMITTED
+
+                        </label>
+
+                        <p class="mb-0">
+
+                            <i class="bi bi-calendar-event"></i>
+
+                            {{ help_request.request_date|date:"d M Y, h:i A" }}
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+     
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-primary text-white p-4">
+
+                    <h4 class="mb-1">
+
+                        <i class="bi bi-pencil-square"></i>
+
+                        Update Response
+
+                    </h4>
+
+                    <small>
+
+                        Update the request status and response details.
+
+                    </small>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- STATUS -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+
+                                <i class="bi bi-activity text-primary"></i>
+
+                                Request Status
+
+                            </label>
+
+
+                            {{ form.status }}
+
+
+                            <div class="form-text">
+
+                                Select the current status of this
+                                emergency request.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- RESPONSE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+
+                                <i class="bi bi-chat-left-text-fill text-primary"></i>
+
+                                Response Result
+
+                            </label>
+
+
+                            {{ form.response_result }}
+
+
+                            <div class="form-text">
+
+                                Describe the assistance provided
+                                or the action taken.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CURRENT STATUS -->
+
+                        <div class="alert alert-info">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+
+                                <div>
+
+                                    <strong>
+
+                                        Current Status:
+
+                                    </strong>
+
+                                    {{ help_request.status }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg w-100">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Save Response
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+          
+
+            <div class="card border-0 shadow-sm mt-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold">
+
+                        <i class="bi bi-shield-check text-success"></i>
+
+                        Response Process
+
+                    </h5>
+
+
+                    <hr>
+
+
+                    <div class="d-flex mb-3">
+
+                        <div class="me-3 text-danger">
+
+                            <i class="bi bi-1-circle-fill fs-4"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+
+                                Received
+
+                            </strong>
+
+                            <p class="text-muted small mb-0">
+
+                                The emergency request has been received.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex mb-3">
+
+                        <div class="me-3 text-warning">
+
+                            <i class="bi bi-2-circle-fill fs-4"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+
+                                In Process
+
+                            </strong>
+
+                            <p class="text-muted small mb-0">
+
+                                The coordinator is working on the request.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex">
+
+                        <div class="me-3 text-success">
+
+                            <i class="bi bi-3-circle-fill fs-4"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+
+                                Completed
+
+                            </strong>
+
+                            <p class="text-muted small mb-0">
+
+                                Emergency assistance has been provided.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

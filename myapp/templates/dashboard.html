@@ -1,0 +1,726 @@
+{% extends "base.html" %}
+
+{% block title %}
+User Dashboard | Smart Disaster Response
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    
+
+    <div class="row align-items-center mb-5">
+
+        <div class="col-lg-8">
+
+            <span class="badge bg-danger px-3 py-2 mb-3">
+                <i class="bi bi-shield-check"></i>
+                Emergency Response Portal
+            </span>
+
+            <h1 class="fw-bold mb-2">
+                Welcome, {{ user.username }} 👋
+            </h1>
+
+            <p class="text-muted mb-0">
+                Stay informed, find emergency resources,
+                and request help when you need it.
+            </p>
+
+        </div>
+
+        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+            <a href="{% url 'request_help' %}"
+               class="btn btn-danger btn-lg shadow">
+
+                <i class="bi bi-life-preserver"></i>
+                Request Emergency Help
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+   
+
+    <div class="row g-4 mb-5">
+
+        <!-- ACTIVE ALERTS -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Active Alerts
+                            </p>
+
+                            <h2 class="fw-bold text-danger">
+                                {{ alerts|length }}
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-danger">
+
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+                        Latest disaster alerts
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMERGENCY RESOURCES -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Emergency Resources
+                            </p>
+
+                            <h2 class="fw-bold text-primary">
+                                {{ resources|length }}
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-primary">
+
+                            <i class="bi bi-hospital-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+                        Available emergency facilities
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MY REQUESTS -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                My Requests
+                            </p>
+
+                            <h2 class="fw-bold text-success">
+                                {{ my_requests|length }}
+                            </h2>
+
+                        </div>
+
+                        <div class="fs-1 text-success">
+
+                            <i class="bi bi-clipboard-check-fill"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+                        Your recent help requests
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+   
+
+    <div class="mb-4">
+
+        <h3 class="fw-bold mb-1">
+
+            <i class="bi bi-broadcast-pin text-danger"></i>
+
+            Latest Disaster Alerts
+
+        </h3>
+
+        <p class="text-muted">
+            Stay updated about emergencies in your area.
+        </p>
+
+    </div>
+
+
+    {% if alerts %}
+
+    <div class="row g-4 mb-5">
+
+        {% for alert in alerts %}
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span class="badge bg-danger">
+
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            {{ alert.disaster_type }}
+
+                        </span>
+
+                        <small class="text-muted">
+
+                            {{ alert.alert_date|date:"d M Y, h:i A" }}
+
+                        </small>
+
+                    </div>
+
+
+                    <h5 class="fw-bold">
+
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                        {{ alert.area }}
+
+                    </h5>
+
+
+                    <p class="text-muted mb-0">
+
+                        {{ alert.alert_message }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+    <div class="alert alert-success mb-5">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        No active disaster alerts at the moment.
+
+    </div>
+
+    {% endif %}
+
+
+   
+
+    <div class="mb-4">
+
+        <h3 class="fw-bold mb-1">
+
+            <i class="bi bi-geo-alt-fill text-primary"></i>
+
+            Emergency Resource Finder
+
+        </h3>
+
+        <p class="text-muted">
+
+            Find hospitals, ambulances, police stations,
+            relief camps, and fire stations.
+
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH FILTER -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <form method="GET"
+                  action="{% url 'dashboard' %}">
+
+                <div class="row g-3">
+
+                    <!-- DISTRICT -->
+
+                    <div class="col-md-5">
+
+                        <label class="form-label fw-semibold">
+
+                            District
+
+                        </label>
+
+                        <input type="text"
+                               name="district"
+                               class="form-control"
+                               placeholder="Search district"
+                               value="{{ request.GET.district }}">
+
+                    </div>
+
+
+                    <!-- RESOURCE TYPE -->
+
+                    <div class="col-md-5">
+
+                        <label class="form-label fw-semibold">
+
+                            Resource Type
+
+                        </label>
+
+                        <select name="resource_type"
+                                class="form-select">
+
+                            <option value="">
+                                All Resources
+                            </option>
+
+                            <option value="Hospital"
+                                {% if request.GET.resource_type == "Hospital" %}
+                                    selected
+                                {% endif %}>
+                                Hospital
+                            </option>
+
+                            <option value="Ambulance"
+                                {% if request.GET.resource_type == "Ambulance" %}
+                                    selected
+                                {% endif %}>
+                                Ambulance
+                            </option>
+
+                            <option value="Police"
+                                {% if request.GET.resource_type == "Police" %}
+                                    selected
+                                {% endif %}>
+                                Police
+                            </option>
+
+                            <option value="Relief Camp"
+                                {% if request.GET.resource_type == "Relief Camp" %}
+                                    selected
+                                {% endif %}>
+                                Relief Camp
+                            </option>
+
+                            <option value="Fire Station"
+                                {% if request.GET.resource_type == "Fire Station" %}
+                                    selected
+                                {% endif %}>
+                                Fire Station
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SEARCH BUTTON -->
+
+                    <div class="col-md-2 d-flex align-items-end">
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+
+                            <i class="bi bi-search"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESOURCE CARDS -->
+
+    {% if resources %}
+
+    <div class="row g-4 mb-5">
+
+        {% for resource in resources %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span class="badge bg-primary">
+
+                            {{ resource.resource_type }}
+
+                        </span>
+
+
+                        {% if resource.availability %}
+
+                        <span class="badge bg-success">
+
+                            <i class="bi bi-check-circle"></i>
+
+                            Available
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-secondary">
+
+                            Unavailable
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <h5 class="fw-bold">
+
+                        {{ resource.name }}
+
+                    </h5>
+
+
+                    <p class="text-muted mb-2">
+
+                        <i class="bi bi-geo-alt-fill"></i>
+
+                        {{ resource.address }}
+
+                    </p>
+
+
+                    <p class="text-muted mb-3">
+
+                        <i class="bi bi-map-fill"></i>
+
+                        {{ resource.district }}
+
+                    </p>
+
+
+                    <a href="tel:{{ resource.phone }}"
+                       class="btn btn-outline-primary w-100">
+
+                        <i class="bi bi-telephone-fill"></i>
+
+                        {{ resource.phone }}
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+    <div class="alert alert-info mb-5">
+
+        <i class="bi bi-info-circle-fill"></i>
+
+        No emergency resources found.
+
+    </div>
+
+    {% endif %}
+
+
+  
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <h3 class="fw-bold mb-1">
+
+                <i class="bi bi-clipboard-check text-success"></i>
+
+                My Recent Help Requests
+
+            </h3>
+
+            <p class="text-muted">
+
+                Track the status of your emergency requests.
+
+            </p>
+
+        </div>
+
+
+        <a href="{% url 'my_requests' %}"
+           class="btn btn-outline-success">
+
+            View All
+
+        </a>
+
+    </div>
+
+
+    {% if my_requests %}
+
+    <div class="card border-0 shadow-sm mb-5">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>
+                            Emergency
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in my_requests %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ item.emergency_type }}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <i class="bi bi-geo-alt text-danger"></i>
+
+                            {{ item.location }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ item.request_date|date:"d M Y" }}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if item.status == "Received" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                <i class="bi bi-clock"></i>
+
+                                Received
+
+                            </span>
+
+
+                            {% elif item.status == "In Process" %}
+
+                            <span class="badge bg-primary">
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                                In Process
+
+                            </span>
+
+
+                            {% elif item.status == "Completed" %}
+
+                            <span class="badge bg-success">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Completed
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="card border-0 shadow-sm mb-5">
+
+        <div class="card-body text-center py-5">
+
+            <i class="bi bi-clipboard-x display-4 text-muted"></i>
+
+            <h5 class="fw-bold mt-3">
+
+                No Help Requests Yet
+
+            </h5>
+
+            <p class="text-muted">
+
+                If you need emergency assistance,
+                submit a help request.
+
+            </p>
+
+            <a href="{% url 'request_help' %}"
+               class="btn btn-danger">
+
+                <i class="bi bi-life-preserver"></i>
+
+                Request Help
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+   
+
+    <div class="card border-0 shadow-lg bg-danger text-white mb-4">
+
+        <div class="card-body p-5 text-center">
+
+            <i class="bi bi-shield-fill-exclamation display-4"></i>
+
+            <h3 class="fw-bold mt-3">
+
+                Are You Facing an Emergency?
+
+            </h3>
+
+            <p class="mb-4">
+
+                Submit your emergency request and
+                our response team will review it.
+
+            </p>
+
+            <a href="{% url 'request_help' %}"
+               class="btn btn-light btn-lg px-5">
+
+                <i class="bi bi-life-preserver"></i>
+
+                Request Emergency Help
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
