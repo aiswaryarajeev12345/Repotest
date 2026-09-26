@@ -18,6 +18,7 @@
 
                 {% csrf_token %}
 
+                <!-- Username -->
                 <div class="mb-3">
                     <label class="form-label">Username</label>
                     <input
@@ -28,6 +29,7 @@
                         required>
                 </div>
 
+                <!-- Email -->
                 <div class="mb-3">
                     <label class="form-label">Email</label>
                     <input
@@ -38,6 +40,19 @@
                         required>
                 </div>
 
+                <!-- Phone -->
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input
+                        type="tel"
+                        name="phone"
+                        class="form-control"
+                        placeholder="Enter phone number"
+                        maxlength="15"
+                        required>
+                </div>
+
+                <!-- Password -->
                 <div class="mb-3">
                     <label class="form-label">Password</label>
                     <input
@@ -48,8 +63,22 @@
                         required>
                 </div>
 
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        class="form-control"
+                        placeholder="Confirm password"
+                        required>
+                </div>
+
+                <!-- Register Button -->
                 <div class="d-grid">
-                    <button class="btn btn-primary">
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
                         Register
                     </button>
                 </div>
